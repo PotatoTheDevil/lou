@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🐇</title>
+<style>
+  /* Reset */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin:0; padding:0;
+    font-family: 'Courier New', Courier, monospace;
+    background: #f4ede3 url('https://www.transparenttextures.com/patterns/pw-pattern.png') repeat;
+    color: #5a4530;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Background paper texture overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: url('https://www.transparenttextures.com/patterns/old-mathematics.png') repeat;
+    opacity: 0.08;
+    pointer-events:none;
+    z-index:-1;
+  }
+
+  header {
+    background: #d3c1a5;
+    border-bottom: 3px solid #a28157;
+    padding: 1rem 2rem;
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #704b27;
+    font-family: 'Special Elite', cursive, monospace;
+    text-shadow: 1px 1px 1px #fff9e8;
+    user-select: none;
+  }
+
+  nav {
+    display: flex;
+    justify-content: center;
+    background: #e6d9be;
+    border-bottom: 2px solid #b59f72;
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+  }
+  nav button {
+    background: #d3c1a5;
+    border: 2px solid #a28157;
+    padding: 0.8rem 1.5rem;
+    margin: 0.3rem;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    color: #5a4530;
+    transition: all 0.3s ease;
+    border-radius: 30px;
+    box-shadow: 3px 3px 5px rgba(166, 141, 96, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  nav button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+  }
+  nav button:hover::before {
+    left: 100%;
+  }
+  nav button:hover, nav button.active {
+    background: #b59f72;
+    color: #fdf6e3;
+    font-weight: bold;
+    transform: translateY(-2px);
+    box-shadow: 3px 5px 8px rgba(166, 141, 96, 0.4);
+  }
+  nav button.active {
+    background: #a28157;
+    color: #fdf6e3;
+  }
+
+  main {
+    flex-grow: 1;
+    padding: 2rem 1rem 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  section {
+    display: none;
+    animation: fadein 0.6s ease forwards;
+  }
+  section.active {
+    display: block;
+  }
+  @keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  /* Vintage wallpaper motifs for backgrounds */
+  .section-bg {
+    background: #f9f2e7 url('https://www.transparenttextures.com/patterns/vintage-wallpaper.png') repeat;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px #d9cdb3;
+    border: 1px solid #d9cdb3;
+  }
+
+  h2 {
+    font-family: 'Special Elite', cursive, monospace;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #704b27;
+    border-bottom: 2px dashed #b59f72;
+    padding-bottom: 0.5rem;
+  }
+
+  /* Buttons & inputs vintage style */
+  button, input[type=button] {
+    background: #c9b08c;
+    border: 2px solid #a07f52;
+    color: #3e2f16;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px #b69e6f;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  button:hover, input[type=button]:hover {
+    background: #a07f52;
+    color: #f4ede3;
+  }
+
+  input[type=text] {
+    font-family: 'Courier New', monospace;
+    padding: 0.4rem 0.6rem;
+    border: 2px solid #a07f52;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 240px;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #5a4530;
+    background: #f9f2e7;
+  }
+
+  /* Responsive typography */
+  @media (max-width: 600px) {
+    header {
+      font-size: 2rem;
+      padding: 1rem;
+    }
+    nav button {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+    }
+    main {
+      padding: 1rem 1rem 3rem;
+    }
+    .section-bg {
+      padding: 1.5rem;
+    }
+  }
+
+  /* Game styles */
+  .game-container {
+    margin: 2rem 0;
+  }
+
+  /* Memory Game */
+  #memory-game {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 10px;
+    max-width: 320px;
+    margin: 1rem auto;
+  }
+  .memory-card {
+    background: #c1ab87;
+    border: 2px solid #a07f52;
+    border-radius: 8px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 2rem;
+    color: #5a4530;
+    user-select: none;
+    box-shadow: inset 1px 1px 5px #d9cdb3;
+    position: relative;
+  }
+  .memory-card.flipped, .memory-card.matched {
+    background: #f2e9d8;
+    color: #704b27;
+    cursor: default;
+    box-shadow: inset 1px 1px 5px #b69e6f;
+  }
+  .memory-card.matched {
+    border-color: #704b27;
+  }
+
+  /* Hangman Game */
+  #hangman {
+    text-align: center;
+    margin: 2rem 0;
+  }
+  #hangman-figure {
+    font-family: monospace;
+    white-space: pre;
+    font-size: 1.2rem;
+    line-height: 1.4;
+    min-height: 120px;
+    margin: 1rem 0;
+  }
+  #hangman-word {
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+    margin: 1.5rem 0;
+    font-family: 'Special Elite', cursive;
+  }
+  #hangman-letters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  #hangman-letters button {
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+  }
+  #hangman-message {
+    margin: 1rem 0;
+    font-weight: bold;
+    min-height: 1.5rem;
+  }
+
+  /* Bunny Facts */
+  .bunny-fact {
+    background: #f3e7d3;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    border: 1px dashed #b59f72;
+    position: relative;
+  }
+  .bunny-fact::before {
+    content: "🐰";
+    position: absolute;
+    left: -15px;
+    top: -15px;
+    font-size: 2rem;
+    background: #f9f2e7;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #b59f72;
+  }
+    .bunny-fact h3 {
+      margin-top: 0;
+      color: #704b27;
+      font-family: 'Special Elite', cursive;
+    }
+    .bunny-gif-container {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1rem;
+    background: #f3e7d3;
+    border-radius: 8px;
+    border: 1px dashed #b59f72;
+  }
+
+  .bunny-gif {
+    max-width: 300px;
+    border-radius: 8px;
+    box-shadow: 3px 3px 8px #d9cdb3;
+    border: 2px solid #a28157;
+  }
+
+  @media (max-width: 600px) {
+    .bunny-gif {
+      max-width: 200px;
+    }
+  }
+
+  /* Timeline */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+  .timeline::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    background-color: #b59f72;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -1px;
+  }
+  .timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+  }
+  .timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #f9f2e7;
+    border: 3px solid #a28157;
+    border-radius: 50%;
+    top: 15px;
+    z-index: 1;
+  }
+  .left {
+    left: 0;
+  }
+  .right {
+    left: 50%;
+  }
+  .left::after {
+    right: -10px;
+  }
+  .right::after {
+    left: -10px;
+  }
+  .timeline-content {
+    padding: 1.2rem;
+    background: #f3e7d3;
+    border-radius: 8px;
+    box-shadow: 3px 3px 5px rgba(166, 141, 96, 0.2);
+    border: 1px solid #d9cdb3;
+  }
+  .timeline-content h3 {
+    margin-top: 0;
+    color: #704b27;
+    font-family: 'Special Elite', cursive;
+    font-size: 1.2rem;
+  }
+  .timeline-year {
+    font-weight: bold;
+    color: #a28157;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .timeline::after {
+      left: 31px;
+    }
+    .timeline-item {
+      width: 100%;
+      padding-left: 70px;
+      padding-right: 25px;
+    }
+    .timeline-item::after {
+      left: 21px;
+    }
+    .left::after, .right::after {
+      left: 21px;
+    }
+    .right {
+      left: 0%;
+    }
+    .timeline-content {
+      padding: 1rem;
+    }
+    .timeline-content h3 {
+      font-size: 1.1rem;
+    }
+  }
+  .timeline-year {
+    font-weight: bold;
+    color: #a28157;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Quiz styles */
+  .quiz-question {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+  }
+  .quiz-options button {
+    display: block;
+    margin: 0.6rem 0;
+    width: 100%;
+    max-width: 300px;
+    text-align: left;
+    padding: 0.8rem 1rem;
+    transition: all 0.2s ease;
+  }
+  .quiz-options button:hover {
+    transform: translateX(5px);
+  }
+  .quiz-result {
+    margin-top: 1rem;
+    font-style: italic;
+    padding: 0.8rem;
+    background: rgba(210, 193, 165, 0.3);
+    border-radius: 5px;
+  }
+
+  /* Love notes */
+  #love-note {
+    font-family: 'Special Elite', cursive, monospace;
+    font-size: 1.3rem;
+    margin: 1rem 0;
+    background: #f3e7d3;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px #b69e6f;
+    min-height: 120px;
+    line-height: 1.6;
+    border: 1px dashed #b59f72;
+  }
+
+  /* Footer */
+  footer {
+    background: #d3c1a5;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    color: #704b27;
+    user-select: none;
+    border-top: 3px solid #a28157;
+  }
+
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<header>lou's sanctuary</header>
+
+<nav>
+  <button class="active" data-target="welcome">home</button>
+  <button data-target="bunnies">bunnies</button>
+  <button data-target="timeline">beatles</button>
+  <button data-target="games">games</button>
+  <button data-target="quiz">quiz</button>
+  <button data-target="love">notes</button>
+</nav>
+
+<main>
+  <section id="welcome" class="section-bg active" aria-label="Welcome Section">
+    <h2>welcome lou !</h2>
+    <p>
+      i made you a little spot on the web, a cozy digital nook where we keep all the fun things. 
+      it's got that vintage feel, with pages full of surprises just for you.
+    </p>
+    <p>
+      click around and see what you find !
+    </p>
+    <p>
+      it's nothing fancy, but it's yours and made with love <3
+    </p>
+    <img src="./images/typewriter.png" alt="vintage typewriter illustration" style="max-width:45%;height:auto;margin-top:1rem;border-radius:8px;box-shadow: 3px 3px 8px #b69e6f;" />
+  </section>
+
+  <section id="bunnies" class="section-bg" aria-label="Bunny Facts Section">
+    <h2>hop into some bunny fun facts !</h2>
+    <p>because everyone needs more bunnies in their life. here's some fun fluff about these adorable creatures:</p>
+    
+    <div class="bunny-fact">
+      <h3>binky masters</h3>
+      <p>when bunnies jump straight up and twist in the air, it's called a "binky" ; their way of showing pure joy. Like your happy dance when you find a great vintage find.</p>
+    </div>
+    
+    <div class="bunny-fact">
+      <h3>360° vision</h3>
+      <p>rabbits can see nearly 360 degrees around them without moving their heads. the only blind spot is right in front of their nose. handy for spotting treats (or predators).</p>
+    </div>
+    
+<div class="bunny-fact">
+      <h3>tooth trouble</h3>
+      <p>a rabbit's teeth never stop growing. they wear them down by constantly chewing ! which explains why they'll nibble on anything from carrots to your favorite shoes.</p>
+    </div>
+    
+    <div class="bunny-fact">
+      <h3>speedy hoppers</h3>
+      <p>the fastest rabbits can run up to 45 mph (i was surprised by this one) faster than most dogs. their zig-zag running pattern makes them even harder to catch when they're spooked.</p>
+    </div>
+    
+    <div class="bunny-fact">
+      <h3>social butterflies</h3>
+      <p>in the wild, rabbits live in complex social groups called colonies. they communicate through subtle body language and even have a hierarchy like a secret scary little bunny society.</p>
+    </div>
+    <div class="bunny-gif-container">
+    <img src="./images/bunny.gif" 
+        alt="Cute bunny GIF" 
+        class="bunny-gif">
+  </div>
+  </section>
+
+
+  <section id="timeline" class="section-bg" aria-label="Timeline Section">
+  <h2>some secrets about the beatles..</h2>
+  <p>behind the scenes stories and odd facts about the four legends that even casual listeners might not know.</p>
+  
+  <div class="timeline">
+    <div class="timeline-item left">
+      <div class="timeline-content">
+        <div class="timeline-year">1957</div>
+        <h3>the original fifth beatle</h3>
+        <p>before ringo, there was stuart sutcliffe ; john's art school friend who played bass despite barely knowing how. he left to focus on painting but sadly died young at 21.</p>
+      </div>
+    </div>
+    <div class="timeline-item right">
+      <div class="timeline-content">
+        <div class="timeline-year">1963</div>
+        <h3>royal command performance</h3>
+        <p>at a royal command performance, john joked to the audience: "those in the cheap seats clap. the rest of you just rattle your jewelry." it caught people off guard but showed their cheeky charm.</p>
+      </div>
+    </div>
+    <div class="timeline-item left">
+      <div class="timeline-content">
+        <div class="timeline-year">1965</div>
+        <h3>movie magic</h3>
+        <p>their film “help!” was one of the first to use humorous, fast-paced editing techniques that influenced music videos decades later.</p>
+      </div>
+    </div>
+    <div class="timeline-item right">
+      <div class="timeline-content">
+        <div class="timeline-year">1967</div>
+        <h3>the walrus mystery</h3>
+        <p>"i am the walrus" was john’s playful way to confuse listeners and critics alike, full of surreal lyrics and sounds meant to baffle.</p>
+      </div>
+    </div>
+    <div class="timeline-item left">
+      <div class="timeline-content">
+        <div class="timeline-year">1968</div>
+        <h3>studio creativity</h3>
+        <p>the white album sessions were famously experimental, the band tried new instruments and sounds, pushing their music in fresh directions.</p>
+      </div>
+    </div>
+    <div class="timeline-item right">
+      <div class="timeline-content">
+        <div class="timeline-year">1969</div>
+        <h3>rooftop concert</h3>
+        <p>their final public performance was an impromptu rooftop concert in london, surprising passersby and marking an iconic end to their live shows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="games" class="section-bg" aria-label="games section">
+    <h2>vintage style games</h2>
+    <p>some fun games, let me know if you want more i'll code them <3 </p>
+    
+    <div class="game-container">
+      <h3>memory match game</h3>
+      <p>find matching vintage icons. tap cards to flip. can you remember them all?</p>
+      <div id="memory-game" role="grid" aria-label="memory matching cards"></div>
+      <button id="restart-memory">restart game</button>
+    </div>
+    
+    <div class="game-container">
+      <h3>vintage hangman</h3>
+      <p>guess the letters before the little stick figure meets his fate.. all the words are vintage themed!</p>
+      <div id="hangman">
+        <div id="hangman-figure"></div>
+        <div id="hangman-word"></div>
+        <div id="hangman-message"></div>
+        <div id="hangman-letters"></div>
+        <button id="restart-hangman" style="margin-top:1rem;">new word</button>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="quiz" class="section-bg" aria-label="quiz section">
+    <h2>vintage pop quizes</h2>
+    <p>let's see how much you know.. (this one hurt my head)</p>
+    <div id="quiz-container">
+      <div id="quiz-question" class="quiz-question"></div>
+      <div id="quiz-options" class="quiz-options"></div>
+      <div id="quiz-result" class="quiz-result"></div>
+      <button id="next-question" style="display:none;margin-top:1rem;">next question</button>
+    </div>
+  </section>
+
+  <section id="love" class="section-bg" aria-label="sweet notes section">
+    <h2>sweet little notes</h2>
+    <p>for when you need a quick dose of love <3</p>
+    <button id="generate-note">get a note</button>
+    <div id="love-note" aria-live="polite" aria-atomic="true"></div>
+  </section>
+</main>
+
+
+<footer>
+  made with care and love (this was hard to code)
+</footer>
+
+<script>
+  // Navigation logic
+  const navButtons = document.querySelectorAll('nav button');
+  const sections = document.querySelectorAll('main section');
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.dataset.target;
+      sections.forEach(s => {
+        s.classList.toggle('active', s.id === target);
+      });
+      // Smooth scroll to top when changing sections
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  });
+
+  // --- memory Match Game ---
+  const icons = ['♠', '♣', '♥', '♦', '★', '☀', '☂', '✉']; // 8 pairs
+  let gameGrid = [];
+  let flippedCards = [];
+  let matchedCount = 0;
+  const memoryGameEl = document.getElementById('memory-game');
+  const restartBtn = document.getElementById('restart-memory');
+
+  function shuffle(array) {
+    for(let i = array.length -1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i+1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function createMemoryGame() {
+    matchedCount = 0;
+    flippedCards = [];
+    gameGrid = shuffle([...icons, ...icons]);
+    memoryGameEl.innerHTML = '';
+    gameGrid.forEach((icon, i) => {
+      const card = document.createElement('div');
+      card.classList.add('memory-card');
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', 'Memory card');
+      card.dataset.icon = icon;
+      card.textContent = '';
+      // flip card on click or keyboard Enter/Space
+      function flipCard() {
+        if(card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length === 2) return;
+        card.classList.add('flipped');
+        card.textContent = icon;
+        flippedCards.push(card);
+        if(flippedCards.length === 2) {
+          if(flippedCards[0].dataset.icon === flippedCards[1].dataset.icon) {
+            // match
+            flippedCards.forEach(c => c.classList.add('matched'));
+            matchedCount += 2;
+            flippedCards = [];
+            if(matchedCount === gameGrid.length) {
+              setTimeout(() => alert('Bravo! You matched them all!'), 300);
+            }
+          } else {
+            // flip back after delay
+            setTimeout(() => {
+              flippedCards.forEach(c => {
+                c.classList.remove('flipped');
+                c.textContent = '';
+              });
+              flippedCards = [];
+            }, 1200);
+          }
+        }
+      }
+      card.addEventListener('click', flipCard);
+      card.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          flipCard();
+        }
+      });
+      memoryGameEl.appendChild(card);
+    });
+  }
+  restartBtn.addEventListener('click', createMemoryGame);
+  createMemoryGame();
+
+  // --- Hangman Game ---
+const hangmanWords = [
+  'TYPEWRITER', 'PICTURE', 'VINYL', 'POLAROID',
+  'TELEGRAPH', 'CASSETTE', 'PAGER',
+  'RECORD', 'VINTAGE', 'RETRO',
+  'JAZZ', 'BLUES', 'BUNNY', 'MARSHMALLOW',
+  'CUPCAKE', 'OVEN', 'BAKE', 'SUGAR',
+  'GUITAR', 'PIANO', 'MICROPHONE', 'BROWNIE',
+  'RABBIT', 'ICE', 'TUNES',
+  'OLD', 'SIGMA', 'BISCUIT', 'PASTRY',
+  'ACOUSTIC', 'MELODY', 'TAPESTRY',
+  'THRIFT', 'MOVIE', 'SWEET', 'MILK',
+  'MIXER', 'BROWN', 'BEATLES', 'HARMONY',
+  'JINGLE', 'TUNEFUL', 'LOVE', 'BUNNYHOP'
+];
+
+  const hangmanStages = [
+    `  +---+
+      |
+      |
+      |
+      |
+      |
+    =====`,
+    `  +---+
+  |   |
+      |
+      |
+      |
+      |
+    =====`,
+    `  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+    =====`,
+    `  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+    =====`,
+    `  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+    =====`,
+    `  +---+
+  |   |
+  O   |
+ /|\\  |
+      |
+      |
+    =====`,
+    `  +---+
+  |   |
+  O   |
+ /|\\  |
+ /    |
+      |
+    =====`,
+    `  +---+
+  |   |
+  O   |
+ /|\\  |
+ / \\  |
+      |
+    =====`
+  ];
+  
+  let hangmanWord = '';
+  let guessedLetters = [];
+  let wrongGuesses = 0;
+  const maxWrong = hangmanStages.length - 1;
+  const hangmanFigureEl = document.getElementById('hangman-figure');
+  const hangmanWordEl = document.getElementById('hangman-word');
+  const hangmanMessageEl = document.getElementById('hangman-message');
+  const hangmanLettersEl = document.getElementById('hangman-letters');
+  const restartHangmanBtn = document.getElementById('restart-hangman');
+  
+  function initHangman() {
+    hangmanWord = hangmanWords[Math.floor(Math.random() * hangmanWords.length)];
+    guessedLetters = [];
+    wrongGuesses = 0;
+    updateHangmanDisplay();
+    createLetterButtons();
+  }
+  
+  function updateHangmanDisplay() {
+    hangmanFigureEl.textContent = hangmanStages[wrongGuesses];
+    
+    const displayWord = hangmanWord.split('').map(letter => 
+      guessedLetters.includes(letter) ? letter : '_'
+    ).join(' ');
+    
+    hangmanWordEl.textContent = displayWord;
+    
+    if (!displayWord.includes('_')) {
+      hangmanMessageEl.textContent = 'you won !! great job!';
+      disableLetterButtons();
+    } else if (wrongGuesses === maxWrong) {
+      hangmanMessageEl.textContent = `game over ! the word was: ${hangmanWord}`;
+      disableLetterButtons();
+    } else {
+      hangmanMessageEl.textContent = '';
+    }
+  }
+  
+  function createLetterButtons() {
+    hangmanLettersEl.innerHTML = '';
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter => {
+      const btn = document.createElement('button');
+      btn.textContent = letter;
+      btn.addEventListener('click', () => guessLetter(letter));
+      hangmanLettersEl.appendChild(btn);
+    });
+  }
+  
+  function disableLetterButtons() {
+    const buttons = hangmanLettersEl.querySelectorAll('button');
+    buttons.forEach(btn => {
+      btn.disabled = true;
+    });
+  }
+  
+  function guessLetter(letter) {
+    if (guessedLetters.includes(letter)) return;
+    
+    guessedLetters.push(letter);
+    const letterBtn = [...hangmanLettersEl.children].find(btn => btn.textContent === letter);
+    letterBtn.disabled = true;
+    
+    if (!hangmanWord.includes(letter)) {
+      wrongGuesses++;
+      letterBtn.style.backgroundColor = '#f8d7da';
+    } else {
+      letterBtn.style.backgroundColor = '#d4edda';
+    }
+    
+    updateHangmanDisplay();
+  }
+  
+  restartHangmanBtn.addEventListener('click', initHangman);
+  initHangman();
+
+const quizData = [
+  {
+    question: "what breed of rabbit is known for its floppy ears?",
+    options: ["lop", "rex", "angora", "netherland dwarf"],
+    answer: "lop",
+  },
+  {
+    question: "which ingredient is essential for making classic french macarons?",
+    options: ["almond flour", "coconut flour", "wheat flour", "cornstarch"],
+    answer: "almond flour",
+  },
+  {
+    question: "what year did the beatles officially form as a band?",
+    options: ["1960", "1958", "1962", "1955"],
+    answer: "1960",
+  },
+  {
+    question: "which vintage item was used to record sound before cassettes?",
+    options: ["wax cylinder", "gramophone", "8-track tape", "mp3 player"],
+    answer: "wax cylinder",
+  },
+  {
+    question: "what do you call a baby rabbit?",
+    options: ["kit", "pup", "cub", "fawn"],
+    answer: "kit",
+  },
+  {
+    question: "which vintage kitchen appliance was used to mix dough manually?",
+    options: ["dough hook", "stand mixer", "egg beater", "whisk"],
+    answer: "egg beater",
+  },
+  {
+    question: "what is the term for a rabbit’s continuously growing teeth?",
+    options: ["open-rooted", "incisor", "molar", "canine"],
+    answer: "open-rooted",
+  },
+  {
+    question: "which vintage camera brand was famous for instant photos?",
+    options: ["polaroid", "kodak", "leica", "canon"],
+    answer: "polaroid",
+  },
+  {
+    question: "the beatles' album 'abbey road' features what iconic image on the cover?",
+    options: ["crosswalk", "studio", "bus", "record player"],
+    answer: "crosswalk",
+  },
+  {
+    question: "which classic baking ingredient was once used as a leavening agent?",
+    options: ["baking soda", "baking powder", "yeast", "cream of tartar"],
+    answer: "yeast",
+  },
+  {
+    question: "what is the name of the vintage phonograph inventor?",
+    options: ["thomas edison", "alexander graham bell", "nikola tesla", "guglielmo marconi"],
+    answer: "thomas edison",
+  },
+  {
+    question: "how many legs does a typical rabbit have?",
+    options: ["4", "6", "2", "8"],
+    answer: "4",
+  },
+  {
+    question: "which beatles member was known as the ‘quiet one’?",
+    options: ["george harrison", "john lennon", "paul mccartney", "ringo starr"],
+    answer: "george harrison",
+  },
+  {
+    question: "what vintage electronic device was used to send typed messages before email?",
+    options: ["teleprinter", "fax machine", "pager", "walkie talkie"],
+    answer: "teleprinter",
+  },
+  {
+    question: "which baking style is known for layering cake and cream repeatedly?",
+    options: ["layer cake", "bundt cake", "sponge cake", "pound cake"],
+    answer: "layer cake",
+  },
+  {
+    question: "what’s the name of the classic rabbit that is famous in literature?",
+    options: ["peter rabbit", "bugs bunny", "roger rabbit", "thumper"],
+    answer: "peter rabbit",
+  },
+  {
+    question: "which beatles song famously starts with a sitar?",
+    options: ["within you without you", "hey jude", "yellow submarine", "let it be"],
+    answer: "within you without you",
+  },
+  {
+    question: "what vintage technology was commonly used for home phone calls?",
+    options: ["rotary dial phone", "push button phone", "smartphone", "corded phone"],
+    answer: "rotary dial phone",
+  },
+  {
+    question: "which ingredient in baking helps dough rise?",
+    options: ["yeast", "salt", "flour", "sugar"],
+    answer: "yeast",
+  },
+  {
+    question: "what is a group of rabbits called?",
+    options: ["colony", "flock", "herd", "pack"],
+    answer: "colony",
+  },
+  {
+    question: "which beatles album features the song ‘come together’?",
+    options: ["abbey road", "sgt. pepper", "revolver", "help!"],
+    answer: "abbey road",
+  },
+  {
+    question: "what vintage music format was played on a turntable?",
+    options: ["vinyl record", "cassette tape", "cd", "mp3"],
+    answer: "vinyl record",
+  },
+  {
+    question: "what is the process called when sugar caramelizes in baking?",
+    options: ["browning", "melting", "crystallization", "fermentation"],
+    answer: "browning",
+  },
+  {
+    question: "what type of rabbit fur is very soft and was prized in vintage clothing?",
+    options: ["rex", "angora", "chinchilla", "lop"],
+    answer: "angora",
+  },
+  {
+    question: "which beatles song is known for the lyrics ‘all you need is love’?",
+    options: ["all you need is love", "hey jude", "help!", "penny lane"],
+    answer: "all you need is love",
+  },
+  {
+    question: "which vintage kitchen tool was used to roll out dough?",
+    options: ["rolling pin", "spatula", "whisk", "mixer"],
+    answer: "rolling pin",
+  },
+  {
+    question: "which breed of rabbit is the smallest?",
+    options: ["netherland dwarf", "rex", "angora", "lop"],
+    answer: "netherland dwarf",
+  },
+  {
+    question: "what is the vintage term for a song that becomes popular across the country?",
+    options: ["hit", "single", "track", "jam"],
+    answer: "hit",
+  },
+  {
+    question: "which baking ingredient is used to add moisture and richness?",
+    options: ["butter", "flour", "baking powder", "salt"],
+    answer: "butter",
+  },
+  {
+    question: "what instrument did paul mccartney famously play besides bass?",
+    options: ["piano", "drums", "guitar", "violin"],
+    answer: "piano",
+  },
+  {
+    question: "what is the name of the vintage instant photo camera?",
+    options: ["polaroid", "kodak", "leica", "nikon"],
+    answer: "polaroid",
+  },
+  {
+    question: "what’s the term for a rabbit’s hop?",
+    options: ["binky", "skip", "jump", "leap"],
+    answer: "binky",
+  },
+  {
+    question: "which beatles member was a drummer?",
+    options: ["ringo starr", "john lennon", "paul mccartney", "george harrison"],
+    answer: "ringo starr",
+  },
+  {
+    question: "which vintage music player used reels of tape?",
+    options: ["reel-to-reel", "cassette", "cd player", "mp3 player"],
+    answer: "reel-to-reel",
+  },
+  {
+    question: "what classic baking flavor comes from a tropical orchid?",
+    options: ["vanilla", "cinnamon", "nutmeg", "almond"],
+    answer: "vanilla",
+  },
+  {
+    question: "what is the average lifespan of a domestic rabbit?",
+    options: ["8-12 years", "3-5 years", "15-20 years", "1-2 years"],
+    answer: "8-12 years",
+  },
+  {
+    question: "which beatles song begins with ‘help, I need somebody’?",
+    options: ["help!", "yesterday", "hey jude", "let it be"],
+    answer: "help!",
+  },
+  {
+    question: "which vintage item was used to listen to music through headphones before mp3 players?",
+    options: ["walkman", "cd player", "radio", "gramophone"],
+    answer: "walkman",
+  },
+  {
+    question: "what type of sugar is commonly used in baking for crispiness?",
+    options: ["granulated sugar", "powdered sugar", "brown sugar", "raw sugar"],
+    answer: "granulated sugar",
+  },
+  {
+    question: "which part of a rabbit’s ear helps regulate body temperature?",
+    options: ["blood vessels", "fur", "cartilage", "muscle"],
+    answer: "blood vessels",
+  },
+  {
+    question: "which beatles album is considered their ‘psychedelic’ masterpiece?",
+    options: ["sgt. pepper's lonely hearts club band", "revolver", "abbey road", "the white album"],
+    answer: "sgt. pepper's lonely hearts club band",
+  }
+];
+
+
+let currentQuizIndex = 0;
+const quizQuestionEl = document.getElementById('quiz-question');
+const quizOptionsEl = document.getElementById('quiz-options');
+const quizResultEl = document.getElementById('quiz-result');
+const nextQuestionBtn = document.getElementById('next-question');
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+let shuffledQuizData = shuffleArray([...quizData]);
+
+function loadQuiz() {
+  quizResultEl.textContent = '';
+  nextQuestionBtn.style.display = 'none';
+  const current = shuffledQuizData[currentQuizIndex];
+  quizQuestionEl.textContent = current.question;
+  quizOptionsEl.innerHTML = '';
+  
+  const shuffledOptions = shuffleArray([...current.options]);
+  
+  shuffledOptions.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.textContent = opt;
+    btn.type = 'button';
+    btn.addEventListener('click', () => {
+      if(opt === current.answer) {
+        quizResultEl.textContent = 'correct !';
+        quizResultEl.style.color = '#6a5338';
+      } else {
+        quizResultEl.textContent = `woops, the correct answer is: "${current.answer}".`;
+        quizResultEl.style.color = '#8b3e2f';
+      }
+      nextQuestionBtn.style.display = 'inline-block';
+      [...quizOptionsEl.children].forEach(b => b.disabled = true);
+    });
+    quizOptionsEl.appendChild(btn);
+  });
+}
+
+nextQuestionBtn.addEventListener('click', () => {
+  currentQuizIndex++;
+  if(currentQuizIndex >= shuffledQuizData.length) {
+    // when restarting, shuffle again for a new order
+    shuffledQuizData = shuffleArray([...quizData]);
+    currentQuizIndex = 0;
+    quizQuestionEl.textContent = "that's all for now love !";
+    quizOptionsEl.innerHTML = '';
+    quizResultEl.textContent = '';
+    nextQuestionBtn.style.display = 'none';
+  } else {
+    loadQuiz();
+  }
+});
+
+shuffledQuizData = shuffleArray([...quizData]);
+loadQuiz();
+
+  // --- sweet notes generator ---
+  const notes = [
+    "you have this way of making ordinary moments feel special. i like that a lot about you.",
+    "i was just thinking about how lucky i am to know someone as genuinely kind as you.",
+    "your perspective on things always makes me see the world a little differently in a good way.",
+    "no matter what's going on knowing you're in my life makes everything feel manageable.",
+    "you're the person i want to text when something funny happens and i think that says a lot..",
+    "there's something about your energy that just makes me at ease, don't ever lose that.",
+    "you handle tough situations with more grace than anyone i know",
+    "i admire how you stay true to yourself no matter what quite rare and refreshing.",
+    "just wanted you to know you're doing better than you think you are.",
+    "even though we've never met face to face, i feel like we've already shared a thousand moments together.",
+    "i imagine us side by side, even if it's just in my mind, and it brings me comfort every day.",
+    "we might be miles apart, but the connection we share feels as close as a heartbeat.",
+    "thinking about our imagined future makes even the hardest days a little brighter.",
+    "we never met in person, but in my dreams, you're always right here with me.",
+    "sometimes i catch myself smiling for no reason, and then i realize it's because of you.",
+    "i can't wait for the day when imagining you becomes reality, but until then, i'll hold you close in my heart.",
+    "the distance can't change how deeply i feel connected to you, even if we've never met face to face.",
+    "our bond is proof that love doesn't need physical proximity to be true and strong <3"
+  ];
+  const loveNoteEl = document.getElementById('love-note');
+  const generateNoteBtn = document.getElementById('generate-note');
+
+  generateNoteBtn.addEventListener('click', () => {
+    const note = notes[Math.floor(Math.random() * notes.length)];
+    loveNoteEl.textContent = note;
+  });
+
+</script>
+
+</body>
+</html>
