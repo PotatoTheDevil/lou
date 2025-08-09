@@ -182,7 +182,14 @@
   .game-container {
     margin: 2rem 0;
   }
-
+  .game-result {
+  margin: 1rem 0;
+  font-weight: bold;
+  min-height: 1.5rem;
+  text-align: center;
+  font-family: 'Special Elite', cursive;
+  color: #704b27;
+  }
   /* Memory Game */
   #memory-game {
     display: grid;
@@ -579,6 +586,7 @@
       <h3>memory match game</h3>
       <p>find matching vintage icons. tap cards to flip. can you remember them all?</p>
       <div id="memory-game" role="grid" aria-label="memory matching cards"></div>
+      <div id="memory-result" class="game-result"></div>
       <button id="restart-memory">restart game</button>
     </div>
     
@@ -653,56 +661,61 @@
     return array;
   }
 
-  function createMemoryGame() {
-    matchedCount = 0;
-    flippedCards = [];
-    gameGrid = shuffle([...icons, ...icons]);
-    memoryGameEl.innerHTML = '';
-    gameGrid.forEach((icon, i) => {
-      const card = document.createElement('div');
-      card.classList.add('memory-card');
-      card.setAttribute('role', 'button');
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', 'Memory card');
-      card.dataset.icon = icon;
-      card.textContent = '';
-      // flip card on click or keyboard Enter/Space
-      function flipCard() {
-        if(card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length === 2) return;
-        card.classList.add('flipped');
-        card.textContent = icon;
-        flippedCards.push(card);
-        if(flippedCards.length === 2) {
-          if(flippedCards[0].dataset.icon === flippedCards[1].dataset.icon) {
-            // match
-            flippedCards.forEach(c => c.classList.add('matched'));
-            matchedCount += 2;
-            flippedCards = [];
-            if(matchedCount === gameGrid.length) {
-              setTimeout(() => alert('Bravo! You matched them all!'), 300);
-            }
-          } else {
-            // flip back after delay
-            setTimeout(() => {
-              flippedCards.forEach(c => {
-                c.classList.remove('flipped');
-                c.textContent = '';
-              });
-              flippedCards = [];
-            }, 1200);
+ function createMemoryGame() {
+  matchedCount = 0;
+  flippedCards = [];
+  gameGrid = shuffle([...icons, ...icons]);
+  memoryGameEl.innerHTML = '';
+  document.getElementById('memory-result').textContent = ''; 
+  
+  gameGrid.forEach((icon, i) => {
+    const card = document.createElement('div');
+    card.classList.add('memory-card');
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', 'Memory card');
+    card.dataset.icon = icon;
+    card.textContent = '';
+    
+    function flipCard() {
+      if(card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length === 2) return;
+      
+      card.classList.add('flipped');
+      card.textContent = icon;
+      flippedCards.push(card);
+      
+      if(flippedCards.length === 2) {
+        if(flippedCards[0].dataset.icon === flippedCards[1].dataset.icon) {
+          flippedCards.forEach(c => c.classList.add('matched'));
+          matchedCount += 2;
+          flippedCards = [];
+          
+          if(matchedCount === gameGrid.length) {
+            document.getElementById('memory-result').textContent = 'Bravo! You matched them all!';
+            document.getElementById('memory-result').style.color = '#6a5338';
           }
+        } else {
+          setTimeout(() => {
+            flippedCards.forEach(c => {
+              c.classList.remove('flipped');
+              c.textContent = '';
+            });
+            flippedCards = [];
+          }, 1200);
         }
       }
-      card.addEventListener('click', flipCard);
-      card.addEventListener('keydown', e => {
-        if(e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          flipCard();
-        }
-      });
-      memoryGameEl.appendChild(card);
+    }
+    
+    card.addEventListener('click', flipCard);
+    card.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        flipCard();
+      }
     });
-  }
+    memoryGameEl.appendChild(card);
+  });
+}
   restartBtn.addEventListener('click', createMemoryGame);
   createMemoryGame();
 
